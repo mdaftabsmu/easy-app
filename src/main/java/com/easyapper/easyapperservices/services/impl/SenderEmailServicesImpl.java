@@ -31,17 +31,26 @@ public class SenderEmailServicesImpl implements SenderEmailServices {
 		SenderEmailMdl model = moniterRepository.findByEmailId(createSenderEmail.getEmailId());
 		if(model==null) {
 			model = moniterRepository.save(new SenderEmailMdl(createSenderEmail));
-			mailSenderService.sendMessage(model.getEmailId(),model.getAppId(),model.getId());
-			return "The activation link that has been send to your email.";
+			mailSenderService.sendMessage(model.getEmailId());
+			return "The Validation mail has been sent to your email id,Please visit mail to click on link.";
 		}
-		if(model.getIsVerified()) {
+		if(model.getAppId().equals(createSenderEmail.getAppId())&&model.getIsVerified()) { // Todo about isVarified 
 			return "Email id already subscribed";
 		}
-		if((new Date().getTime() - model.getRegisteredAt().getTime())>=30*60*1000) {
-			mailSenderService.sendMessage(model.getEmailId(),model.getAppId(),model.getId());
-			return "The activation link that has been send to your email.";
+		
+		if(model.getSerKey().equals(createSenderEmail.getSerKey())) {
+			// I What validate here 
 		}
-		return "Please try After 30 min";
+		
+		/*if((new Date().getTime() - model.getRegisteredAt().getTime())>=30*60*1000) {
+			mailSenderService.sendMessage(model.getEmailId());
+			return "The Validation mail has been sent to your email id,Please visit mail to click on link.";
+		}*/
+		
+		else {
+			throw new EmailAlreadyExistException("Use User differnt email id.");
+		}
+		return "";// Error msg
 		
 	}
 

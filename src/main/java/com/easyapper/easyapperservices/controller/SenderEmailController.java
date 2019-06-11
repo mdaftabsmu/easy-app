@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import com.easyapper.easyapperservices.exception.EmailAlreadyExistException;
 import com.easyapper.easyapperservices.request.CreateSenderEmail;
@@ -26,8 +27,9 @@ public class SenderEmailController {
 
 	@PostMapping(path = "/apps/{appId}/senders", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
 			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-	public ResponseEntity<EasyApperResponse> createSenderEmail(@RequestBody CreateSenderEmail createSenderEmail,@PathVariable("appId") String appId){
+	public ResponseEntity<EasyApperResponse> createSenderEmail(@RequestHeader(value="subscription-key") String subscriptionKey,@RequestBody CreateSenderEmail createSenderEmail,@PathVariable("appId") String appId){
 		try {
+			createSenderEmail.setSerKey(subscriptionKey);
 			createSenderEmail.setAppId(appId);
 			logger.info(createSenderEmail+appId);
 			return ResponseEntity.ok(new EasyApperResponse(HttpStatus.CREATED.value(), moniterServices.createSenderEmail(createSenderEmail)));
