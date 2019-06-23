@@ -13,7 +13,7 @@ public class EasyApperAutoConfiguration {
 
 	 @Bean
 	   public AmazonSimpleEmailService amazonSimpleEmailService() {
-		 AmazonSimpleEmailService client = AmazonSimpleEmailServiceClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials("", "")))
+		 AmazonSimpleEmailService client = AmazonSimpleEmailServiceClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials("AKIAZCO6GQ2DYRUTHEVU", "FjPMYaQOq9p1ubvJGW/bqVFqHYMStyDWdT627vmL")))
 		            .withRegion(Regions.US_EAST_1).build();
 	        return client;
 	    }
