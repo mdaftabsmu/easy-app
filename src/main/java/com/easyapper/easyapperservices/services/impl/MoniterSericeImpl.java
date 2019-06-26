@@ -27,7 +27,7 @@ public class MoniterSericeImpl implements MoniterService{
 	@Override
 	public String createMoniter(UserMoniter userMoniter) {
 			
-		UserMoniterMdl moniterMdl = moniterRepository.findByEmailIdAndAppId(userMoniter.getReciverMailId(),userMoniter.getAppId());
+		UserMoniterMdl moniterMdl = moniterRepository.findByReciverMailIdAndAppId(userMoniter.getReciverMailId(),userMoniter.getAppId());
 		if(moniterMdl == null) {
 			moniterMdl = moniterRepository.save(new UserMoniterMdl(userMoniter));
 			mailSenderService.sendMessage(moniterMdl.getReciverMailId()," no-reply@noddys.club");

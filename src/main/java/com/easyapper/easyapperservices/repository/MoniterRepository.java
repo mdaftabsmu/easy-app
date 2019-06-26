@@ -9,6 +9,6 @@ import com.easyapper.easyapperservices.model.UserMoniterMdl;
 @Repository
 public interface MoniterRepository extends  MongoRepository<UserMoniterMdl, String >{
 
-	UserMoniterMdl findByEmailIdAndAppId(String reciverMailId, String appId);
+	UserMoniterMdl findByReciverMailIdAndAppId(String reciverMailId, String appId);
 
 }
