@@ -23,7 +23,7 @@ public class MailSenderService {
     private AmazonSimpleEmailService amazonSimpleEmailService;
 	
 
-    public void sendMessage(String emailId,String sources) {
+	public void sendMessage(String emailId,String sources) {
     	SendEmailRequest request = new SendEmailRequest()
     	          .withDestination(
     	              new Destination().withToAddresses(emailId))

@@ -30,7 +30,7 @@ public class MoniterSericeImpl implements MoniterService{
 		UserMoniterMdl moniterMdl = moniterRepository.findByReciverMailIdAndAppId(userMoniter.getReciverMailId(),userMoniter.getAppId());
 		if(moniterMdl == null) {
 			moniterMdl = moniterRepository.save(new UserMoniterMdl(userMoniter));
-			mailSenderService.sendMessage(moniterMdl.getReciverMailId()," no-reply@noddys.club");
+			mailSenderService.sendMessage(moniterMdl.getReciverMailId());
 		}
 		 
 		return moniterMdl.getId();

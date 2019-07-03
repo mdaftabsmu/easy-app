@@ -8,6 +8,6 @@ import com.easyapper.easyapperservices.model.ReceiversMdl;
 @Repository
 public interface ReceiverRepository extends MongoRepository<ReceiversMdl, String> {
 
-	ReceiversMdl findByEmailIdAndAppId(String email,String appId);
+	ReceiversMdl findByEmailAndAppId(String email,String appId);
 
 }

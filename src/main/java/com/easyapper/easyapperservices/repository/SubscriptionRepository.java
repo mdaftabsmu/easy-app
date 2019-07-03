@@ -10,6 +10,7 @@ import com.easyapper.easyapperservices.model.SubscriptionMdl;
 @Repository
 public interface SubscriptionRepository extends MongoRepository<SubscriptionMdl, String> {
 
-	SubscriptionMdl findByEmailIdAndMonitor(String appId, Map<String, Object> monitor);
+	SubscriptionMdl findByEmailAndMonitor(String appId, Map<String, Object> monitor);
+	SubscriptionMdl findBySubscriptionKey(String subscriptionKey);
 
 }

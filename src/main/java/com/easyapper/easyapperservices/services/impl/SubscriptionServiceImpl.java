@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 import com.easyapper.easyapperservices.exception.UserAlreadyExistException;
 import com.easyapper.easyapperservices.model.SubscriptionMdl;
+import com.easyapper.easyapperservices.model.UserMoniterMdl;
+import com.easyapper.easyapperservices.repository.MoniterRepository;
 import com.easyapper.easyapperservices.repository.SubscriptionRepository;
 import com.easyapper.easyapperservices.request.Subscription;
 import com.easyapper.easyapperservices.services.SubscriptionService;
@@ -17,23 +19,40 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	private SubscriptionRepository subscriptionRepository;
 	
 	@Autowired
+	private MoniterRepository moniterRepository; 
+	
+	@Autowired
 	private MailSenderService mailSenderService;
 
 	@Override
 	public void save(Subscription subscription) throws Exception {
-		SubscriptionMdl obj = subscriptionRepository.findByEmailIdAndMonitor(subscription.getAppId(),subscription.getMonitor());
+		SubscriptionMdl obj = subscriptionRepository.findByEmailAndMonitor(subscription.getAppId(),subscription.getMonitor());
 		if(obj!=null) {
 			throw new UserAlreadyExistException("User already exist!");
 		}
 		obj  = new SubscriptionMdl(subscription);
 		subscriptionRepository.save(obj);
 		// todo need discussion  
-		mailSenderService.sendMessage(subscription.getEmail(), "no-reply@noddys.club");
+		UserMoniterMdl moniterMdl = moniterRepository.findByAppId(obj.getAppId());
+		if(moniterMdl!=null) {
+			mailSenderService.sendMessage(subscription.getEmail(),moniterMdl.getReciverMailId());
+			// todo need discussion 
+		}
 		
-		// todo need discussion 
 		
 		
 		
+	}
+
+	@Override
+	public boolean removeSub(String subscriptionKey) throws Exception {
+		SubscriptionMdl mdl = subscriptionRepository.findBySubscriptionKey(subscriptionKey);
+		if(mdl!=null) {
+			mdl.setStatus(false);
+			subscriptionRepository.save(mdl);
+			return true;
+		}
+		return false;
 	}
 
 	

@@ -2,7 +2,9 @@ package com.easyapper.easyapperservices.model;
 
 import java.util.List;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.easyapper.easyapperservices.request.NotifyEvent;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -12,10 +14,15 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class NotifyEventMdl {
+	@Id
 	private String id;
+	@Field("subscriptionKey")
 	private String subscriptionKey;
+	@Field("appId")
 	private String appId;
+	@Field("moniterId")
 	private String moniterId;
+	@Field("events")
 	private List<String> events;
 	
 	public NotifyEventMdl() {

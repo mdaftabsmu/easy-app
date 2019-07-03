@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 import com.easyapper.easyapperservices.exception.UserAlreadyExistException;
 import com.easyapper.easyapperservices.model.ReceiversMdl;
+import com.easyapper.easyapperservices.model.UserMoniterMdl;
+import com.easyapper.easyapperservices.repository.MoniterRepository;
 import com.easyapper.easyapperservices.repository.ReceiverRepository;
 import com.easyapper.easyapperservices.request.Receivers;
 import com.easyapper.easyapperservices.services.ReceiverService;
@@ -17,18 +19,23 @@ public class ReceiverServiceImpl implements ReceiverService{
 	private ReceiverRepository receiverRepository;
 	
 	@Autowired
+	private MoniterRepository moniterRepository;
+	
+	@Autowired
 	private MailSenderService mailSenderService;
 
 	@Override
 	public void receiverSave(Receivers request) throws Exception {
-		ReceiversMdl obj = receiverRepository.findByEmailIdAndAppId(request.getEmail(),request.getAppId());
+		ReceiversMdl obj = receiverRepository.findByEmailAndAppId(request.getEmail(),request.getAppId());
 		if(obj !=null) {
 			throw new UserAlreadyExistException("User already added in app");
 		}
 		receiverRepository.save(new ReceiversMdl(request));
-		mailSenderService.sendMessage(request.getEmail(), "no-reply@noddys.club");
 		
-		
+		UserMoniterMdl moniterMdl = moniterRepository.findByAppId(request.getAppId());
+		if(moniterMdl !=null) {
+			mailSenderService.sendMessage(request.getEmail(),moniterMdl.getReciverMailId());
+		}
 	}
 
 	

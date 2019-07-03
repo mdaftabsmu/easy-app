@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +31,21 @@ public class SubscriptionController {
 		try {
 			subscription.setSubscriptionKey(subscriptionKey);
 			subscriptionService.save(subscription);
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.notFound().build();
+		}	
+		
+	}
+	
+	
+	@GetMapping(path = "mailer/subscriptions", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+	public ResponseEntity removeSubscription(@RequestHeader(value="SubscriptionKey") String subscriptionKey
+			){
+		try {
+			subscriptionService.removeSub(subscriptionKey);
 			return ResponseEntity.ok().build();
 		} catch (Exception e) {
 			e.printStackTrace();

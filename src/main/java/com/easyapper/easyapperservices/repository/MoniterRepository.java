@@ -11,4 +11,6 @@ public interface MoniterRepository extends  MongoRepository<UserMoniterMdl, Stri
 
 	UserMoniterMdl findByReciverMailIdAndAppId(String reciverMailId, String appId);
 
+	UserMoniterMdl findByAppId(String appId);
+
 }
