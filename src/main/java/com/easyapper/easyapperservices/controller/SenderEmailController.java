@@ -27,7 +27,7 @@ public class SenderEmailController {
 
 	@PostMapping(path = "/apps/{appId}/senders", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
 			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-	public ResponseEntity<EasyApperResponse> createSenderEmail(@RequestHeader(value="subscription-key") String subscriptionKey,@RequestBody CreateSenderEmail createSenderEmail,@PathVariable("appId") String appId){
+	public ResponseEntity<EasyApperResponse> createSenderEmail(@RequestHeader(value="subscriptionKey") String subscriptionKey,@RequestBody CreateSenderEmail createSenderEmail,@PathVariable("appId") String appId){
 		try {
 			createSenderEmail.setSerKey(subscriptionKey);
 			createSenderEmail.setAppId(appId);
@@ -47,6 +47,10 @@ public class SenderEmailController {
 		return moniterServices.senderEmailVarification(verificationCode);
 	}
 
-
-
+	
+	@PostMapping(path = "/maller/senders", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+	public String senders(@RequestHeader(value="subscriptionKey") String subscriptionKey,@RequestBody CreateSenderEmail createSenderEmail) {
+		return moniterServices.updateSenderVerification(createSenderEmail);
+	}
 }

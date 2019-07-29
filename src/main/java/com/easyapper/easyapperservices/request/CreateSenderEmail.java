@@ -10,6 +10,7 @@ public class CreateSenderEmail {
 	private String userId;
 	@JsonProperty("ser_key")
 	private String serKey;
+	@JsonProperty("app_id")
 	private String appId;
 
 	public CreateSenderEmail() {

@@ -28,7 +28,7 @@ public class SenderEmailServicesImpl implements SenderEmailServices {
 
 	@Override
 	public String createSenderEmail(CreateSenderEmail createSenderEmail) throws EmailAlreadyExistException {
-		SenderEmailMdl model = moniterRepository.findByEmailId(createSenderEmail.getEmailId());
+		SenderEmailMdl model = moniterRepository.findByEmailIdAndAppId(createSenderEmail.getEmailId(),createSenderEmail.getAppId());
 		if(model==null) {
 			model = moniterRepository.save(new SenderEmailMdl(createSenderEmail));
 			mailSenderService.sendMessage(model.getEmailId());
@@ -41,16 +41,10 @@ public class SenderEmailServicesImpl implements SenderEmailServices {
 		if(model.getSerKey().equals(createSenderEmail.getSerKey())) {
 			// I What validate here 
 		}
-		
-		/*if((new Date().getTime() - model.getRegisteredAt().getTime())>=30*60*1000) {
-			mailSenderService.sendMessage(model.getEmailId());
-			return "The Validation mail has been sent to your email id,Please visit mail to click on link.";
-		}*/
-		
 		else {
 			throw new EmailAlreadyExistException("Use User differnt email id.");
 		}
-		return "";// Error msg
+		return "The Validation mail has been sent to your email id,Please visit mail to click on link.";
 		
 	}
 
@@ -67,6 +61,17 @@ public class SenderEmailServicesImpl implements SenderEmailServices {
 		createSenderEmailMdl.setIsVerified(true);
 		moniterRepository.save(createSenderEmailMdl);
 		return "Your subscription has been activated";
+	}
+
+	@Override
+	public String updateSenderVerification(CreateSenderEmail createSenderEmail) {
+		SenderEmailMdl model = moniterRepository.findByEmailIdAndAppId(createSenderEmail.getEmailId(),createSenderEmail.getAppId());
+		if(model!=null) {
+			model.setIsVerified(true);
+			moniterRepository.save(model);
+			return "Email id has been verified";
+		}
+		return "Emaild and App id not found in db!";
 	}
 
 }

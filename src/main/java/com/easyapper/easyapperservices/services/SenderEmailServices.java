@@ -9,4 +9,6 @@ public interface SenderEmailServices {
 
 	public String senderEmailVarification(String verificationCode);
 
+	public String updateSenderVerification(CreateSenderEmail createSenderEmail);
+
 }
