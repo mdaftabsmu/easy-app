@@ -5,36 +5,35 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class UserMoniter {
-	@JsonProperty("param")
-	private Map<String,Object> filterMap;
-	@JsonProperty("reciver_mailid")
+	@JsonProperty("moniterId")
+	private String moniterId;
+	@JsonProperty("email")
 	private String reciverMailId;
 	@JsonProperty("ser_key")
 	private String serKey;
 	@JsonProperty("user_id")
 	private String userId;
-	@JsonProperty("app_id")
+	@JsonProperty("appId")
 	private String appId;
 	
 	public UserMoniter() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public UserMoniter(Map<String, Object> filterMap, String reciverMailId, String serKey, String userId,
-			String appId) {
-		this.filterMap = filterMap;
+	public UserMoniter(String moniterId, String reciverMailId, String serKey, String userId, String appId) {
+		this.moniterId = moniterId;
 		this.reciverMailId = reciverMailId;
 		this.serKey = serKey;
 		this.userId = userId;
 		this.appId = appId;
 	}
 
-	public Map<String, Object> getFilterMap() {
-		return filterMap;
+	public String getMoniterId() {
+		return moniterId;
 	}
 
-	public void setFilterMap(Map<String, Object> filterMap) {
-		this.filterMap = filterMap;
+	public void setMoniterId(String moniterId) {
+		this.moniterId = moniterId;
 	}
 
 	public String getReciverMailId() {
@@ -71,7 +70,7 @@ public class UserMoniter {
 
 	@Override
 	public String toString() {
-		return "UserMoniter [filterMap=" + filterMap + ", reciverMailId=" + reciverMailId + ", serKey=" + serKey
+		return "UserMoniter [moniterId=" + moniterId + ", reciverMailId=" + reciverMailId + ", serKey=" + serKey
 				+ ", userId=" + userId + ", appId=" + appId + "]";
 	}
 	

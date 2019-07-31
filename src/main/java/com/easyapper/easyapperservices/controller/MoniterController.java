@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.easyapper.easyapperservices.exception.EmailAlreadyExistException;
@@ -24,11 +24,10 @@ public class MoniterController {
 	@Autowired
 	private MoniterService moniterService;
 	
-	@PostMapping(path = "/emailSrv/apps/{appId}/monitors", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+	@PostMapping(path = "mailer/sender", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
 			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-	public ResponseEntity<EasyApperResponse> createMoniter(@RequestBody UserMoniter userMoniter,@PathVariable("appId") String appId){
+	public ResponseEntity<EasyApperResponse> createMoniter(@RequestHeader(value="SubscriptionKey") String subscriptionKey, @RequestBody UserMoniter userMoniter){
 		try {
-			userMoniter.setAppId(appId);
 			return ResponseEntity.ok(new EasyApperResponse(HttpStatus.CREATED.value(), moniterService.createMoniter(userMoniter)));
 		} catch (EmailAlreadyExistException e) {
 			e.printStackTrace();

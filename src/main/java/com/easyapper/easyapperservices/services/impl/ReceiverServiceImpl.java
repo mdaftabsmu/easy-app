@@ -25,19 +25,16 @@ public class ReceiverServiceImpl implements ReceiverService{
 	private MailSenderService mailSenderService;
 
 	@Override
-	public void receiverSave(Receivers request) throws Exception {
+	public String receiverSave(Receivers request) throws Exception {
 		ReceiversMdl obj = receiverRepository.findByEmailAndAppId(request.getEmail(),request.getAppId());
 		if(obj !=null) {
 			throw new UserAlreadyExistException("User already added in app");
 		}
 		receiverRepository.save(new ReceiversMdl(request));
-		
 		UserMoniterMdl moniterMdl = moniterRepository.findByAppId(request.getAppId());
 		if(moniterMdl !=null) {
 			mailSenderService.sendMessage(request.getEmail(),moniterMdl.getReciverMailId());
 		}
+		return "Mail has been sent to user";
 	}
-
-	
-
 } 

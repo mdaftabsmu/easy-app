@@ -36,6 +36,20 @@ public class MailSenderService {
     	          .withSource(sources);
     	 this.amazonSimpleEmailService.sendEmail(request);
     }
+	
+	public void sendMessage(String emailId,String subject,String content,String sources) {
+    	SendEmailRequest request = new SendEmailRequest()
+    	          .withDestination(
+    	              new Destination().withToAddresses(emailId))
+    	          .withMessage(new Message()
+    	              .withBody(new Body()
+    	                  .withHtml(new Content()
+    	                      .withCharset(UTF_8).withData(content)))
+    	              .withSubject(new Content()
+    	                  .withCharset(UTF_8).withData(subject)))
+    	          .withSource(sources);
+    	 this.amazonSimpleEmailService.sendEmail(request);
+    }
     
     public void sendMessage(String emailId) {
     	 VerifyEmailIdentityRequest request = new VerifyEmailIdentityRequest().withEmailAddress(emailId);

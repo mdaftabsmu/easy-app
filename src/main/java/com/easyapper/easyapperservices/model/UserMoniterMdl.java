@@ -18,8 +18,8 @@ public class UserMoniterMdl {
 	
 	@Id
 	private String id;
-	@Field("filter_map")
-	private Map<String,Object> filterMap;
+	@Field("moniterId")
+	private String moniterId;
 	@Field("receiver_mail_id")
 	private String reciverMailId;
 	@Field("srv_key")
@@ -37,10 +37,10 @@ public class UserMoniterMdl {
 		// TODO Auto-generated constructor stub
 	}
 
-	public UserMoniterMdl(String id, Map<String, Object> filterMap, String reciverMailId, String serKey,
+	public UserMoniterMdl(String id,String moniterId, String reciverMailId, String serKey,
 			String userId, String appId, boolean status, Date registerdAt) {
 		this.id = id;
-		this.filterMap = filterMap;
+		this.moniterId = moniterId;
 		this.reciverMailId = reciverMailId;
 		this.serKey = serKey;
 		this.userId = userId;
@@ -50,7 +50,7 @@ public class UserMoniterMdl {
 	}
 
 	public UserMoniterMdl(UserMoniter userMoniter) {
-		this.filterMap = userMoniter.getFilterMap();
+		this.moniterId = userMoniter.getMoniterId();
 		this.reciverMailId = userMoniter.getReciverMailId();
 		this.serKey = userMoniter.getSerKey();
 		this.appId = userMoniter.getAppId();
@@ -65,14 +65,6 @@ public class UserMoniterMdl {
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public Map<String, Object> getFilterMap() {
-		return filterMap;
-	}
-
-	public void setFilterMap(Map<String, Object> filterMap) {
-		this.filterMap = filterMap;
 	}
 
 	public String getReciverMailId() {
@@ -123,13 +115,21 @@ public class UserMoniterMdl {
 		this.registerdAt = registerdAt;
 	}
 
+
+	public String getMoniterId() {
+		return moniterId;
+	}
+
+	public void setMoniterId(String moniterId) {
+		this.moniterId = moniterId;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((appId == null) ? 0 : appId.hashCode());
-		result = prime * result + ((filterMap == null) ? 0 : filterMap.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((moniterId == null) ? 0 : moniterId.hashCode());
 		result = prime * result + ((reciverMailId == null) ? 0 : reciverMailId.hashCode());
 		result = prime * result + ((registerdAt == null) ? 0 : registerdAt.hashCode());
 		result = prime * result + ((serKey == null) ? 0 : serKey.hashCode());
@@ -152,15 +152,15 @@ public class UserMoniterMdl {
 				return false;
 		} else if (!appId.equals(other.appId))
 			return false;
-		if (filterMap == null) {
-			if (other.filterMap != null)
-				return false;
-		} else if (!filterMap.equals(other.filterMap))
-			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
+			return false;
+		if (moniterId == null) {
+			if (other.moniterId != null)
+				return false;
+		} else if (!moniterId.equals(other.moniterId))
 			return false;
 		if (reciverMailId == null) {
 			if (other.reciverMailId != null)

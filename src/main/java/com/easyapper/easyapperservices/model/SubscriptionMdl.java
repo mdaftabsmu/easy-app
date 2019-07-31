@@ -17,8 +17,8 @@ public class SubscriptionMdl {
 
 	@Id
 	private String id;
-	@Field("moniter")
-	private Map<String,Object> monitor;
+	@Field("monitorId")
+	private String monitorId;
 	@Field("email")
 	private String email;
 	@Field("appId")
@@ -32,16 +32,16 @@ public class SubscriptionMdl {
 		// TODO Auto-generated constructor stub
 	}
 
-	public SubscriptionMdl(String id, Map<String, Object> monitor, String email, String appId, String subscriptionKey) {
+	public SubscriptionMdl(String id, String monitorId, String email, String appId, String subscriptionKey) {
 		this.id = id;
-		this.monitor = monitor;
+		this.monitorId = monitorId;
 		this.email = email;
 		this.appId = appId;
 		this.subscriptionKey = subscriptionKey;
 	}
 
 	public SubscriptionMdl(Subscription subscription) {
-		this.monitor = subscription.getMonitor();
+		this.monitorId = subscription.getMonitorId();
 		this.email = subscription.getEmail();
 		this.appId = subscription.getAppId();
 		this.subscriptionKey = subscription.getSubscriptionKey();
@@ -56,12 +56,14 @@ public class SubscriptionMdl {
 		this.id = id;
 	}
 
-	public Map<String, Object> getMonitor() {
-		return monitor;
+	
+
+	public String getMonitorId() {
+		return monitorId;
 	}
 
-	public void setMonitor(Map<String, Object> monitor) {
-		this.monitor = monitor;
+	public void setMonitorId(String monitorId) {
+		this.monitorId = monitorId;
 	}
 
 	public String getEmail() {
@@ -87,9 +89,6 @@ public class SubscriptionMdl {
 	public void setSubscriptionKey(String subscriptionKey) {
 		this.subscriptionKey = subscriptionKey;
 	}
-	
-	
-
 	public boolean isStatus() {
 		return status;
 	}
@@ -102,12 +101,5 @@ public class SubscriptionMdl {
 	public String toString() {
 		return "SubscriptionMdl [id=" + id+ "]";
 	}
-	
-	
-	
-	
-	
-	
-	
 
 }

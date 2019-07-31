@@ -23,8 +23,7 @@ public class ReceiversController {
 			@RequestBody Receivers request){
 		try {
 			request.setSubscriptionKey(subscriptionKey);
-			receiverService.receiverSave(request);
-			return ResponseEntity.ok().build();
+			return ResponseEntity.ok(receiverService.receiverSave(request));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(404).body(e.getMessage());

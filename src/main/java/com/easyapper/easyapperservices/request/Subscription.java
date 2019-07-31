@@ -6,8 +6,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Subscription {
 	
-	@JsonProperty("monitor")
-	private Map<String,Object> monitor;
+	@JsonProperty("monitorId")
+	private String monitorId;
 	@JsonProperty("email")
 	private String email;
 	@JsonProperty("appId")
@@ -19,18 +19,18 @@ public class Subscription {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Subscription(Map<String, Object> monitor, String email, String appId) {
-		this.monitor = monitor;
+	public Subscription( String monitorId, String email, String appId) {
+		this.monitorId = monitorId;
 		this.email = email;
 		this.appId = appId;
 	}
 
-	public Map<String, Object> getMonitor() {
-		return monitor;
+	public String getMonitorId() {
+		return monitorId;
 	}
 
-	public void setMonitor(Map<String, Object> monitor) {
-		this.monitor = monitor;
+	public void setMonitorId(String monitorId) {
+		this.monitorId = monitorId;
 	}
 
 	public String getEmail() {

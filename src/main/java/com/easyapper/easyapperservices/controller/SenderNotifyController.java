@@ -37,7 +37,7 @@ public class SenderNotifyController {
 			senderNotify.setAppId(appId);
 			senderNotify.setSenderEmail(emailId);
 			senderNotifyService.senderNotify(senderNotify);
-			return ResponseEntity.ok().build();
+			return ResponseEntity.ok("Mail sent this email : "+senderNotify.getReceivers());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.notFound().build();
@@ -52,8 +52,7 @@ public class SenderNotifyController {
 			notifyEvent.setAppId(appId);
 			notifyEvent.setSubscriptionKey(subscriptionKey);
 			notifyEvent.setMoniterId(moniterId);
-			senderNotifyService.senderNotify(notifyEvent);
-			return ResponseEntity.ok().build();
+			return ResponseEntity.ok(senderNotifyService.senderNotify(notifyEvent));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.notFound().build();

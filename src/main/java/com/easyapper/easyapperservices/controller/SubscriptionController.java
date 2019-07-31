@@ -26,15 +26,13 @@ public class SubscriptionController {
 	
 	@PostMapping(path = "mailer/subscriptions", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
 			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-	public ResponseEntity notifyEvents(@RequestHeader(value="SubscriptionKey") String subscriptionKey,
+	public ResponseEntity<?> notifyEvents(@RequestHeader(value="SubscriptionKey") String subscriptionKey,
 			@RequestBody Subscription subscription){
 		try {
 			subscription.setSubscriptionKey(subscriptionKey);
-			subscriptionService.save(subscription);
-			return ResponseEntity.ok().build();
+			return ResponseEntity.ok(subscriptionService.save(subscription));
 		} catch (Exception e) {
-			e.printStackTrace();
-			return ResponseEntity.notFound().build();
+			return ResponseEntity.status(404).body(e.getMessage());
 		}	
 		
 	}
@@ -42,8 +40,7 @@ public class SubscriptionController {
 	
 	@GetMapping(path = "mailer/subscriptions", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
 			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-	public ResponseEntity removeSubscription(@RequestHeader(value="SubscriptionKey") String subscriptionKey
-			){
+	public ResponseEntity<?> removeSubscription(@RequestHeader(value="SubscriptionKey") String subscriptionKey){
 		try {
 			subscriptionService.removeSub(subscriptionKey);
 			return ResponseEntity.ok().build();

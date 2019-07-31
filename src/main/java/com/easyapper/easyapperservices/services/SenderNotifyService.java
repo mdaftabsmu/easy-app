@@ -7,6 +7,6 @@ public interface SenderNotifyService {
 	
 	public void senderNotify(SenderNotify senderNotify) throws Exception;
 	
-	public void senderNotify(NotifyEvent notifyEvent) throws Exception;
+	public String senderNotify(NotifyEvent notifyEvent) throws Exception;
 
 }
