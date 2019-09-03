@@ -1,6 +1,7 @@
 package com.easyapper.easyapperservices.services.impl;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -10,8 +11,10 @@ import org.springframework.stereotype.Service;
 
 import com.easyapper.easyapperservices.exception.EmailAlreadyExistException;
 import com.easyapper.easyapperservices.model.SenderEmailMdl;
+import com.easyapper.easyapperservices.repository.ReceiverRepository;
 import com.easyapper.easyapperservices.repository.SenderEmailRepository;
 import com.easyapper.easyapperservices.request.CreateSenderEmail;
+import com.easyapper.easyapperservices.request.ReceiverValidate;
 import com.easyapper.easyapperservices.services.SenderEmailServices;
 import com.easyapper.easyapperservices.utils.MailSenderService;
 
@@ -25,6 +28,10 @@ public class SenderEmailServicesImpl implements SenderEmailServices {
 
 	@Autowired
 	private MailSenderService mailSenderService;
+	
+	@Autowired
+	private ReceiverRepository receiverRepository;
+	
 
 	@Override
 	public String createSenderEmail(CreateSenderEmail createSenderEmail) throws EmailAlreadyExistException {
@@ -72,6 +79,35 @@ public class SenderEmailServicesImpl implements SenderEmailServices {
 			return "Email id has been verified";
 		}
 		return "Emaild and App id not found in db!";
+	}
+
+	@Override
+	public List<String> getReceiverEmailId(String appId, String monitorId) {
+		return null;//receiverRepository.getEmailByAppIdAndMoniterId(appId,monitorId).map(obj);
+	}
+
+	@Override
+	public String receiverValidate(String appId, String monitorId, ReceiverValidate receiverValidate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String deleteBySenderId(String appId, String senderId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getSenderList(String appId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String updateSenderDetails(String appId, String senderId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

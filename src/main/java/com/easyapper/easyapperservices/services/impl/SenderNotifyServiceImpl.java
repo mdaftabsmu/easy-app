@@ -9,6 +9,7 @@ import com.easyapper.easyapperservices.model.NotifyEventMdl;
 import com.easyapper.easyapperservices.model.SenderNotifyMdl;
 import com.easyapper.easyapperservices.repository.NotifyEventRepository;
 import com.easyapper.easyapperservices.repository.SenderNotifyRepository;
+import com.easyapper.easyapperservices.request.EmailContent;
 import com.easyapper.easyapperservices.request.NotifyEvent;
 import com.easyapper.easyapperservices.request.SenderNotify;
 import com.easyapper.easyapperservices.services.SenderNotifyService;
@@ -42,6 +43,12 @@ public class SenderNotifyServiceImpl implements SenderNotifyService {
 	public String senderNotify(NotifyEvent notifyEvent) throws Exception {
 		notifyEventRepository.save(new NotifyEventMdl(notifyEvent));
 		return " All list event has been saved!";
+	}
+
+	@Override
+	public String sendEmailByMoniterId(String appId, String monitorId, EmailContent emailContent) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

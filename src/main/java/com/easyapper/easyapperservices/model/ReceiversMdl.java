@@ -19,7 +19,9 @@ public class ReceiversMdl {
 	@Field("appId")
 	private String appId;
 	@Field("subscriptionKey")
-	private String subscriptionKey;  
+	private String subscriptionKey;
+	@Field("moniterId")
+	private String moniterId;
 	
 	public ReceiversMdl() {
 		// TODO Auto-generated constructor stub
@@ -35,6 +37,7 @@ public class ReceiversMdl {
 		this.email =request.getEmail();
 		this.appId = request.getAppId();
 		this.subscriptionKey= request.getSubscriptionKey();
+		this.moniterId = request.getMoniterId();
 	}
 
 	public String getEmail() {
