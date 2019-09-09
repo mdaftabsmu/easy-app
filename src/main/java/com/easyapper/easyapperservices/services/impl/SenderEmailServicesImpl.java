@@ -1,5 +1,6 @@
 package com.easyapper.easyapperservices.services.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -9,8 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.easyapper.easyapperservices.exception.CommonException;
 import com.easyapper.easyapperservices.exception.EmailAlreadyExistException;
 import com.easyapper.easyapperservices.model.SenderEmailMdl;
+import com.easyapper.easyapperservices.repository.ReceiverProjection;
 import com.easyapper.easyapperservices.repository.ReceiverRepository;
 import com.easyapper.easyapperservices.repository.SenderEmailRepository;
 import com.easyapper.easyapperservices.request.CreateSenderEmail;
@@ -82,32 +85,59 @@ public class SenderEmailServicesImpl implements SenderEmailServices {
 	}
 
 	@Override
-	public List<String> getReceiverEmailId(String appId, String monitorId) {
-		return null;//receiverRepository.getEmailByAppIdAndMoniterId(appId,monitorId).map(obj);
+	public String getReceiverEmailId(String appId, String monitorId) throws CommonException {
+		List<ReceiverProjection> emailIds = receiverRepository.getEmailByAppIdAndMoniterId(appId,monitorId);
+		if(emailIds==null || emailIds.isEmpty()) {
+			throw new CommonException("Email id not found");
+		}
+		List<String> ids = new ArrayList<String>();
+		for(ReceiverProjection rp :emailIds ) {
+			ids.add(rp.getEmail());
+		}
+		return String.join(",", ids);
 	}
 
 	@Override
 	public String receiverValidate(String appId, String monitorId, ReceiverValidate receiverValidate) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
-	public String deleteBySenderId(String appId, String senderId) {
-		// TODO Auto-generated method stub
-		return null;
+	public String deleteBySenderId(String appId, String senderId) throws CommonException {
+		Optional<SenderEmailMdl> sender = moniterRepository.findById(senderId);
+		if(sender == null) {
+			throw new CommonException("Invalid sender id");
+		}
+		SenderEmailMdl senderEmailMdl = sender.get();
+		moniterRepository.delete(senderEmailMdl);
+		return "User has been deleted from db";
 	}
 
 	@Override
-	public String getSenderList(String appId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<String> getSenderList(String appId) throws CommonException {
+		List<SenderEmailMdl> senderEmailMdl = moniterRepository.findByAppId(appId);
+		if(senderEmailMdl == null || senderEmailMdl.isEmpty()) {
+			throw new CommonException("App id deson't exist in db");
+		}
+		List<String> senderId = new ArrayList<String>();
+		for(SenderEmailMdl sender : senderEmailMdl) {
+			senderId.add(sender.getId());
+		}
+		return senderId;
 	}
 
+	// Need to discuss
 	@Override
-	public String updateSenderDetails(String appId, String senderId) {
-		// TODO Auto-generated method stub
-		return null;
+	public String updateSenderDetails(String appId, String senderId) throws CommonException {
+		Optional<SenderEmailMdl> sender = moniterRepository.findById(senderId);
+		if(sender == null) {
+			throw new CommonException("Invalid sender id");
+		}
+		SenderEmailMdl senderEmailMdl = sender.get();
+		//senderEmailMdl.setEmailId(emailId);
+		moniterRepository.save(senderEmailMdl);
+		return "Data has been updated successfully";
 	}
 
 }

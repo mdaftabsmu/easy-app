@@ -62,9 +62,14 @@ public class SenderEmailController {
 
 	@GetMapping(path = "/mailer/apps/{appId}/monitors/{monitorId}/emails",consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
 			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-	public List<String> listEmail(@RequestHeader(value="subscriptionKey") String subscriptionKey,@PathVariable("appId") String appId,
+	public ResponseEntity<EasyApperResponse> listEmail(@RequestHeader(value="subscriptionKey") String subscriptionKey,@PathVariable("appId") String appId,
 			@PathVariable("monitorId") String monitorId) {
-		return moniterServices.getReceiverEmailId(appId,monitorId);
+		try {
+			return  ResponseEntity.ok(new EasyApperResponse(HttpStatus.OK.value(),moniterServices.getReceiverEmailId(appId,monitorId)));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.ok(new EasyApperResponse(HttpStatus.NOT_FOUND.value(), e.getMessage()));
+		}
 	}
 
 	@PostMapping(path = "/mailer/apps/{appId}/monitors/{monitorId}/emails",consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
@@ -85,15 +90,15 @@ public class SenderEmailController {
 			return ResponseEntity.ok(new EasyApperResponse(HttpStatus.OK.value(),moniterServices.getSenderList(appId)));
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.ok(new EasyApperResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage()));
+			return ResponseEntity.ok(new EasyApperResponse(HttpStatus.NOT_FOUND.value(), e.getMessage()));
 		}
 	}
-	
+
 	// Need to discuss regarding request body data
 	@PutMapping(path = "/mailer/apps/{appId}/senders/{senderId}",consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
 			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	public ResponseEntity<EasyApperResponse> updateSender(@RequestHeader(value="subscriptionKey") String subscriptionKey,@PathVariable("appId") String appId,
-			 @PathVariable("senderId") String senderId) {
+			@PathVariable("senderId") String senderId) {
 		try {
 			return ResponseEntity.ok(new EasyApperResponse(HttpStatus.OK.value(),moniterServices.updateSenderDetails(appId,senderId)));
 		} catch (Exception e) {
@@ -101,11 +106,11 @@ public class SenderEmailController {
 			return ResponseEntity.ok(new EasyApperResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage()));
 		}
 	}
-	
+
 	@DeleteMapping(path = "/mailer/apps/{appId}/senders/{senderId}",consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
 			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	public ResponseEntity<EasyApperResponse> deleteSender(@RequestHeader(value="subscriptionKey") String subscriptionKey,@PathVariable("appId") String appId,
-			 @PathVariable("senderId") String senderId) {
+			@PathVariable("senderId") String senderId) {
 		try {
 			return ResponseEntity.ok(new EasyApperResponse(HttpStatus.OK.value(),moniterServices.deleteBySenderId(appId,senderId)));
 		} catch (Exception e) {

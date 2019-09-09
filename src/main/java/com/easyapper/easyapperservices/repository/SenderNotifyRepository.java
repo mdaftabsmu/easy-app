@@ -8,4 +8,6 @@ import com.easyapper.easyapperservices.model.SenderNotifyMdl;
 @Repository
 public interface SenderNotifyRepository extends MongoRepository<SenderNotifyMdl, String>  {
 
+	SenderNotifyMdl findByAppId(String appId);
+
 }

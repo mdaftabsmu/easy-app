@@ -1,4 +1,6 @@
 package com.easyapper.easyapperservices.response;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class EasyApperResponse {
@@ -6,6 +8,8 @@ public class EasyApperResponse {
     private int status;
     @JsonProperty("msg")
     private String msg;
+    @JsonProperty("ids")
+    private List<String> ids;
 
     public EasyApperResponse() {
     }
@@ -18,8 +22,23 @@ public class EasyApperResponse {
         this.status = status;
         this.msg = msg;
     }
+    
+    
 
-    public int getStatus() {
+    public EasyApperResponse(int status, List<String> ids) {
+		super();
+		this.status = status;
+		this.ids = ids;
+	}
+
+	public EasyApperResponse(int status, String msg, List<String> ids) {
+		super();
+		this.status = status;
+		this.msg = msg;
+		this.ids = ids;
+	}
+
+	public int getStatus() {
         return status;
     }
 
@@ -34,4 +53,14 @@ public class EasyApperResponse {
     public void setMsg(String msg) {
         this.msg = msg;
     }
+
+	public List<String> getIds() {
+		return ids;
+	}
+
+	public void setIds(List<String> ids) {
+		this.ids = ids;
+	}
+    
+    
 }

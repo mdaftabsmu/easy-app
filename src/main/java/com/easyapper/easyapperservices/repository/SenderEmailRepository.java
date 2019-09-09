@@ -16,4 +16,8 @@ public interface SenderEmailRepository extends MongoRepository<SenderEmailMdl, S
 	
 	List<SenderEmailMdl> findAllByIsVerified(boolean isVerified);
 
+	List<SenderEmailMdl> findByAppId(String appId);
+	
+	
+
 }

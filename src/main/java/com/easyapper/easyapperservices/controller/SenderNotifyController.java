@@ -58,7 +58,8 @@ public class SenderNotifyController {
 		
 	}
 	
-	@PostMapping(path = "/mailer/apps/{appId}/monitors/{monitorId}/notify",consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+	// todo need to discuss
+	@PostMapping(path = "/mailer/apps/{appId}/monitors/{monitorId}/notify/check",consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
 			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	public ResponseEntity<EasyApperResponse> receiverCreation(@RequestHeader(value="subscriptionKey") String subscriptionKey,@PathVariable("appId") String appId,
 			@PathVariable("monitorId") String monitorId, @RequestBody EmailContent emailContent) {
