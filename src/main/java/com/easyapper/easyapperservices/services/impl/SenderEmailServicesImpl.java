@@ -12,12 +12,14 @@ import org.springframework.stereotype.Service;
 
 import com.easyapper.easyapperservices.exception.CommonException;
 import com.easyapper.easyapperservices.exception.EmailAlreadyExistException;
+import com.easyapper.easyapperservices.model.ReceiversMdl;
 import com.easyapper.easyapperservices.model.SenderEmailMdl;
 import com.easyapper.easyapperservices.repository.ReceiverProjection;
 import com.easyapper.easyapperservices.repository.ReceiverRepository;
 import com.easyapper.easyapperservices.repository.SenderEmailRepository;
 import com.easyapper.easyapperservices.request.CreateSenderEmail;
 import com.easyapper.easyapperservices.request.ReceiverValidate;
+import com.easyapper.easyapperservices.request.SenderUpdate;
 import com.easyapper.easyapperservices.services.SenderEmailServices;
 import com.easyapper.easyapperservices.utils.MailSenderService;
 
@@ -98,9 +100,19 @@ public class SenderEmailServicesImpl implements SenderEmailServices {
 	}
 
 	@Override
-	public String receiverValidate(String appId, String monitorId, ReceiverValidate receiverValidate) {
-		
-		return null;
+	public String receiverValidate(String appId, String monitorId, ReceiverValidate receiverValidate) throws CommonException {
+		if(appId==null ||appId.isEmpty()||monitorId==null||monitorId.isEmpty()) {
+			throw new CommonException("Invalid AppId and Moniter Id");
+		}
+		ReceiversMdl receiversMdl = receiverRepository.findByAppIdAndMoniterId(appId,monitorId);
+		if(receiversMdl == null) {
+			throw new CommonException("Receiver data doesn't exist ");
+		}
+		receiversMdl.setValidTill(receiverValidate.getValidTill());
+		receiversMdl.setCreatedAt(new Date().getTime());
+		receiversMdl.setIsValid(true);
+		receiverRepository.save(receiversMdl);
+		return "Data has been updated";
 	}
 
 	@Override
@@ -127,15 +139,14 @@ public class SenderEmailServicesImpl implements SenderEmailServices {
 		return senderId;
 	}
 
-	// Need to discuss
 	@Override
-	public String updateSenderDetails(String appId, String senderId) throws CommonException {
+	public String updateSenderDetails(String appId, String senderId,SenderUpdate senderUpdate) throws CommonException {
 		Optional<SenderEmailMdl> sender = moniterRepository.findById(senderId);
-		if(sender == null) {
+		if(sender == null ||!sender.isPresent()) {
 			throw new CommonException("Invalid sender id");
 		}
 		SenderEmailMdl senderEmailMdl = sender.get();
-		//senderEmailMdl.setEmailId(emailId);
+		senderEmailMdl.setEmailId(senderUpdate.getEmailId());
 		moniterRepository.save(senderEmailMdl);
 		return "Data has been updated successfully";
 	}

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.easyapper.easyapperservices.exception.EmailAlreadyExistException;
 import com.easyapper.easyapperservices.request.CreateSenderEmail;
 import com.easyapper.easyapperservices.request.ReceiverValidate;
+import com.easyapper.easyapperservices.request.SenderUpdate;
 import com.easyapper.easyapperservices.response.EasyApperResponse;
 import com.easyapper.easyapperservices.services.SenderEmailServices;
 
@@ -43,7 +44,7 @@ public class SenderEmailController {
 			return ResponseEntity.ok(new EasyApperResponse(HttpStatus.CONFLICT.value(), e.getMessage()));
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.ok(new EasyApperResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage()));
+			return ResponseEntity.ok(new EasyApperResponse(HttpStatus.NOT_FOUND.value(), e.getMessage()));
 		}
 	}
 
@@ -80,7 +81,7 @@ public class SenderEmailController {
 			return ResponseEntity.ok(new EasyApperResponse(HttpStatus.OK.value(),moniterServices.receiverValidate(appId,monitorId,receiverValidate)));
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.ok(new EasyApperResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage()));
+			return ResponseEntity.ok(new EasyApperResponse(HttpStatus.NOT_FOUND.value(), e.getMessage()));
 		}
 	}
 	@GetMapping(path = "/mailer/apps/{appId}/senders",consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
@@ -94,16 +95,15 @@ public class SenderEmailController {
 		}
 	}
 
-	// Need to discuss regarding request body data
 	@PutMapping(path = "/mailer/apps/{appId}/senders/{senderId}",consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
 			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	public ResponseEntity<EasyApperResponse> updateSender(@RequestHeader(value="subscriptionKey") String subscriptionKey,@PathVariable("appId") String appId,
-			@PathVariable("senderId") String senderId) {
+			@PathVariable("senderId") String senderId,SenderUpdate senderUpdate) {
 		try {
-			return ResponseEntity.ok(new EasyApperResponse(HttpStatus.OK.value(),moniterServices.updateSenderDetails(appId,senderId)));
+			return ResponseEntity.ok(new EasyApperResponse(HttpStatus.OK.value(),moniterServices.updateSenderDetails(appId,senderId,senderUpdate)));
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.ok(new EasyApperResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage()));
+			return ResponseEntity.ok(new EasyApperResponse(HttpStatus.NOT_FOUND.value(), e.getMessage()));
 		}
 	}
 
@@ -115,7 +115,7 @@ public class SenderEmailController {
 			return ResponseEntity.ok(new EasyApperResponse(HttpStatus.OK.value(),moniterServices.deleteBySenderId(appId,senderId)));
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.ok(new EasyApperResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage()));
+			return ResponseEntity.ok(new EasyApperResponse(HttpStatus.NOT_FOUND.value(), e.getMessage()));
 		}
 	}
 }

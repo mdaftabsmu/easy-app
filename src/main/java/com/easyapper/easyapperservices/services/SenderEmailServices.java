@@ -6,6 +6,7 @@ import com.easyapper.easyapperservices.exception.CommonException;
 import com.easyapper.easyapperservices.exception.EmailAlreadyExistException;
 import com.easyapper.easyapperservices.request.CreateSenderEmail;
 import com.easyapper.easyapperservices.request.ReceiverValidate;
+import com.easyapper.easyapperservices.request.SenderUpdate;
 
 public interface SenderEmailServices {
 	
@@ -17,13 +18,13 @@ public interface SenderEmailServices {
 
 	public String getReceiverEmailId(String appId, String monitorId) throws CommonException;
 
-	public String receiverValidate(String appId, String monitorId, ReceiverValidate receiverValidate);
+	public String receiverValidate(String appId, String monitorId, ReceiverValidate receiverValidate) throws CommonException;
 
 	public String deleteBySenderId(String appId, String senderId) throws CommonException;
 
 	public List<String> getSenderList(String appId) throws CommonException;
 
-	public String updateSenderDetails(String appId, String senderId) throws CommonException;
+	public String updateSenderDetails(String appId, String senderId,SenderUpdate senderUpdate) throws CommonException;
 
 }
 

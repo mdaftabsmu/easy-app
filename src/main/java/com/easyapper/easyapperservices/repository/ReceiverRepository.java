@@ -14,4 +14,6 @@ public interface ReceiverRepository extends MongoRepository<ReceiversMdl, String
 	
 	List<ReceiverProjection> getEmailByAppIdAndMoniterId(String appId, String monitorId);
 
+	ReceiversMdl findByAppIdAndMoniterId(String appId, String monitorId);
+
 }

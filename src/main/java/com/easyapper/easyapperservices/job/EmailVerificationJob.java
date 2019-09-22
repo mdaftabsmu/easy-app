@@ -24,7 +24,7 @@ public class EmailVerificationJob {
 	@Autowired
 	private SenderEmailRepository senderEmailRepository;
 
-	@Scheduled(fixedRate = 20000)
+	@Scheduled(fixedRate = 2000000)
 	public void scheduleTaskWithFixedRate() {
 		List<SenderEmailMdl> list = senderEmailRepository.findAllByIsVerified(false);
 		if(list == null || list.isEmpty()) {
